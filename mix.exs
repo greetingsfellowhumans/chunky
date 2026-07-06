@@ -28,10 +28,10 @@ defmodule Chunky.MixProject do
   defp deps do
     [
       # dev only/test only
-      {:ex_doc, "0.14", only: :dev, runtime: false},
-      {:httpoison, "1.6", only: [:dev, :test]},
-      {:jason, "1.1", only: [:dev, :test]},
-      {:credo, "1.1.0", only: [:dev, :test], runtime: false}
+      {:ex_doc, "~> 0.14", only: :dev, runtime: false},
+      {:httpoison, "~> 1.6", only: [:dev, :test]},
+      {:jason, "~> 1.1", only: [:dev, :test]},
+      {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false}
     ]
   end
 
