@@ -351,9 +351,6 @@ defmodule Chunky.Geometry.Triangle do
               {_, nil} ->
                 {:error, :indecomposable}
 
-              {nil, nil} ->
-                {:error, :indecomposable}
-
               {a_base, b_base} ->
                 {:ok, {a_base, h, a_h}, {b_base, h, b_h}}
             end
