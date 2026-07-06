@@ -533,7 +533,7 @@ defmodule Chunky.Math.Predicates do
     |> Enum.reject(fn {func, _arity} -> skip_set |> MapSet.member?(func) end)
     # map to funct/name pairs
     |> Enum.map(fn {func, _arity} ->
-      f_atom = func |> Atom.to_string() |> String.slice(3..-2) |> String.to_atom()
+      f_atom = func |> Atom.to_string() |> String.slice(3..-2//-1) |> String.to_atom()
       {func, f_atom}
     end)
 
@@ -4249,8 +4249,8 @@ defmodule Chunky.Math.Predicates do
       if is_prime?(p) do
         case mode do
           :left -> p |> Integer.digits() |> Enum.drop(1) |> Integer.undigits()
-          :right -> p |> Integer.digits() |> Enum.slice(0..-2) |> Integer.undigits()
-          :both -> p |> Integer.digits() |> Enum.slice(1..-2) |> Integer.undigits()
+          :right -> p |> Integer.digits() |> Enum.slice(0..-2//-1) |> Integer.undigits()
+          :both -> p |> Integer.digits() |> Enum.slice(1..-2//-1) |> Integer.undigits()
         end
         |> is_prime_with_edit?(mode)
       else

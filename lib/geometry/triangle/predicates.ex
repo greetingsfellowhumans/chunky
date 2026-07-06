@@ -132,7 +132,7 @@ defmodule Chunky.Geometry.Triangle.Predicates do
       |> Enum.reject(fn {func, _arity} -> skip_set |> MapSet.member?(func) end)
       # map to funct/name pairs
       |> Enum.map(fn {func, _arity} ->
-        f_atom = func |> Atom.to_string() |> String.slice(3..-2) |> String.to_atom()
+        f_atom = func |> Atom.to_string() |> String.slice(3..-2//-1) |> String.to_atom()
         {func, f_atom}
       end)
 
