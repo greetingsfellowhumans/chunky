@@ -847,7 +847,7 @@ defmodule Chunky.Fraction do
       true
   """
   def within?(%Fraction{} = fraction, %Range{} = range) do
-    f..l = range
+    f..l//_ = range
     within?(fraction, f, l)
   end
 
