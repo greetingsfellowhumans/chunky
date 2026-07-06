@@ -1023,6 +1023,14 @@ defmodule Chunky.Sequence do
       iex> Sequence.create(Sequence.Basic, :whole_numbers) |> Sequence.get_references()
       [{:wolfram, :positive_integer, "http://mathworld.wolfram.com/PositiveInteger.html"}, {:wikipedia, :natural_number, "https://en.wikipedia.org/wiki/Natural_number"}]
 
+  Retrieve sequence reference data from a sequence description dictionary, like those returned
+  by `available/1` and `available/0`.
+
+  ## Examples
+
+      iex> %{module: Chunky.Sequence.OEIS.Factors, sequence: :a052486} |> Sequence.get_references()
+      [{:oeis, :a052486, "https://oeis.org/A052486"}, {:wikipedia, :achilles_number, "https://en.wikipedia.org/wiki/Achilles_number"}]
+
   """
   def get_references(%Sequence{} = sequence) do
     {mod, fun} = sequence.instance
@@ -1033,15 +1041,6 @@ defmodule Chunky.Sequence do
     attrs |> Map.get(:references, [])
   end
 
-  @doc """
-  Retrieve sequence reference data from a sequence description dictionary, like those returned
-  by `available/1` and `available/0`.
-
-  ## Examples
-
-      iex> %{module: Chunky.Sequence.OEIS.Factors, sequence: :a052486} |> Sequence.get_references()
-      [{:oeis, :a052486, "https://oeis.org/A052486"}, {:wikipedia, :achilles_number, "https://en.wikipedia.org/wiki/Achilles_number"}]
-  """
   def get_references(%{sequence: seq_atom, module: mod_atom})
       when is_atom(seq_atom) and is_atom(mod_atom) do
     full_fun = "create_sequence_#{seq_atom}" |> String.to_atom()

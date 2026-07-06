@@ -223,19 +223,7 @@ defmodule Chunky.Fraction do
 
       iex> Fraction.new(0, 37)
       %Fraction{num: 0, den: 37}
-  """
-  def new(num, den) when is_integer(num) and is_integer(den) do
-    cond do
-      den == 0 -> {:error, :invalid_denominator}
-      num == 0 && den != 0 -> %Fraction{num: 0, den: abs(den)}
-      num > 0 && den < 0 -> %Fraction{num: num * -1, den: abs(den)}
-      num < 0 && den > 0 -> %Fraction{num: num, den: den}
-      num < 0 && den < 0 -> %Fraction{num: abs(num), den: abs(den)}
-      true -> %Fraction{num: num, den: den}
-    end
-  end
 
-  @doc """
   Convert a floating point value to a fraction.
 
   There are two modes for converting values:
@@ -266,6 +254,17 @@ defmodule Chunky.Fraction do
       iex> Fraction.new(3.14, conversion: :precision) |> to_string()
       "7070651414971679/2251799813685248"
   """
+  def new(num, den) when is_integer(num) and is_integer(den) do
+    cond do
+      den == 0 -> {:error, :invalid_denominator}
+      num == 0 && den != 0 -> %Fraction{num: 0, den: abs(den)}
+      num > 0 && den < 0 -> %Fraction{num: num * -1, den: abs(den)}
+      num < 0 && den > 0 -> %Fraction{num: num, den: den}
+      num < 0 && den < 0 -> %Fraction{num: abs(num), den: abs(den)}
+      true -> %Fraction{num: num, den: den}
+    end
+  end
+
   def new(fl, opts) when is_float(fl) and is_list(opts) do
     mode = opts |> Keyword.get(:conversion, :natural)
 
@@ -306,11 +305,7 @@ defmodule Chunky.Fraction do
 
       iex> new(0.9)
       %Fraction{num: 9, den: 10}
-      
-  """
-  def new(fl) when is_float(fl), do: new(fl, conversion: :natural)
 
-  @doc """
   Create a fraction from a tuple of a numerator and denominator.
 
   ## Examples
@@ -318,10 +313,6 @@ defmodule Chunky.Fraction do
       iex> Fraction.new({4, 5})
       %Fraction{num: 4, den: 5}
 
-  """
-  def new({num, den}) when is_integer(num) and is_integer(den), do: new(num, den)
-
-  @doc """
   Create a whole number fraction from an integer.
 
   ## Examples
@@ -331,10 +322,7 @@ defmodule Chunky.Fraction do
 
       iex> Fraction.new(-22)
       %Fraction{num: -22, den: 1}
-  """
-  def new(int) when is_integer(int), do: new(int, 1)
 
-  @doc """
   Create a fraction from a fraction. 
 
   This is an identity function, and the original fraction is returned. This is primarily
@@ -345,10 +333,6 @@ defmodule Chunky.Fraction do
       iex> Fraction.new(22, 7) |> Fraction.new()
       %Fraction{num: 22, den: 7}
 
-  """
-  def new(%Fraction{} = fraction), do: fraction
-
-  @doc """
   Convert a string encoding of an integer, float, or fraction into a fraction.
 
   ## Example
@@ -368,6 +352,14 @@ defmodule Chunky.Fraction do
       iex> Fraction.new("3.14")
       %Fraction{num: 314, den: 100}
   """
+  def new(fl) when is_float(fl), do: new(fl, conversion: :natural)
+
+  def new({num, den}) when is_integer(num) and is_integer(den), do: new(num, den)
+
+  def new(int) when is_integer(int), do: new(int, 1)
+
+  def new(%Fraction{} = fraction), do: fraction
+
   def new(string) when is_binary(string) do
     case String.split(string, "/") do
       [single] ->
